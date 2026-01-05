@@ -1,0 +1,133 @@
+!DOCTYPE html
+html lang=fa
+head
+meta charset=UTF-8
+titleبازی آموزشی هشتمtitle
+meta name=viewport content=width=device-width, initial-scale=1.0
+style
+body{
+  font-familytahoma;
+  backgroundlinear-gradient(#1d2671,#c33764);
+  directionrtl;
+  text-aligncenter;
+  colorwhite;
+}
+.box{
+  backgroundwhite;
+  colorblack;
+  width90%;
+  max-width500px;
+  margin20px auto;
+  padding20px;
+  border-radius15px;
+}
+button{
+  padding12px 20px;
+  margin8px;
+  font-size16px;
+  bordernone;
+  border-radius10px;
+  cursorpointer;
+}
+buttonhover{opacity0.85}
+.hide{displaynone}
+.correct{background#4CAF50;colorwhite}
+.wrong{background#F44336;colorwhite}
+style
+head
+
+body
+
+h1🎓 بازی آموزشی پایه هشتمh1
+h3سازنده سامیارh3
+
+div class=box id=startBox
+pنام خود را وارد کنیدp
+input id=player placeholder=نام بازیکن
+brbr
+button onclick=startGame()🚀 شروع بازیbutton
+div
+
+div class=box hide id=gameBox
+h3👤 span id=playerNamespanh3
+h3⭐ امتیاز span id=score0spanh3
+h3⏱ زمان span id=time60spanh3
+h2 id=qTexth2
+div id=answersdiv
+div
+
+div class=box hide id=endBox
+h2🏁 پایان بازیh2
+h3امتیاز نهایی span id=finalScorespanh3
+button onclick=location.reload()🔄 بازی دوبارهbutton
+div
+
+script
+let score=0,time=60,timer;
+let used=[];
+let currentQ;
+
+const questions=[
+ ریاضی 
+{qحاصل 3² + 4² ؟,a[25,14,49],c0},
+{qاگر x=3 باشد، 2x+5؟,a[11,6,16],c0},
+{qحاصل 12÷3×2؟,a[8,6,12],c0},
+{qکدام عدد اول است؟,a[9,11,15],c1},
+
+ علوم 
+{qکوچک‌ترین واحد سازنده ماده چیست؟,a[اتم,مولکول,سلول],c0},
+{qکدام سیاره به زمین نزدیک‌تر است؟,a[مریخ,زهره,مشتری],c1},
+{qنیروی جاذبه را چه کسی کشف کرد؟,a[ادیسون,نیوتن,گالیله],c1},
+
+ هوش 
+{qاگر امروز سه‌شنبه باشد، 5 روز بعد چه روزی است؟,a[شنبه,یکشنبه,دوشنبه],c1},
+{qکدام شکل ضلع ندارد؟,a[مثلث,دایره,مربع],c1},
+{qساعت 315 چند درجه است؟,a[7.5,0,22.5],c0}
+];
+
+function startGame(){
+let name=document.getElementById(player).value;
+if(name===){alert(نام را وارد کنید);return;}
+document.getElementById(playerName).innerText=name;
+document.getElementById(startBox).classList.add(hide);
+document.getElementById(gameBox).classList.remove(hide);
+nextQ();
+timer=setInterval(()={
+time--;
+document.getElementById(time).innerText=time;
+if(time=0) endGame();
+},1000);
+}
+
+function nextQ(){
+if(used.length===questions.length){endGame();return;}
+let r;
+do{
+r=Math.floor(Math.random()questions.length);
+}while(used.includes(r));
+used.push(r);
+currentQ=questions[r];
+document.getElementById(qText).innerText=currentQ.q;
+let html=;
+currentQ.a.forEach((x,i)={
+html+=`button onclick=check(${i})${x}button`;
+});
+document.getElementById(answers).innerHTML=html;
+}
+
+function check(i){
+if(i===currentQ.c) score+=10;
+document.getElementById(score).innerText=score;
+nextQ();
+}
+
+function endGame(){
+clearInterval(timer);
+document.getElementById(gameBox).classList.add(hide);
+document.getElementById(endBox).classList.remove(hide);
+document.getElementById(finalScore).innerText=score;
+}
+script
+
+body
+html
